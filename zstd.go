@@ -2,6 +2,7 @@ package zstd
 
 /*
 #define ZSTD_STATIC_LINKING_ONLY
+#cgo CFLAGS: -DZSTD_LEGACY_SUPPORT=5
 #include "zstd.h"
 */
 import "C"
