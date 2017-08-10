@@ -5,6 +5,8 @@
 The current headers and C files are from *v1.3.0* (Commit
 [fe007ba](https://github.com/facebook/zstd/releases/tag/v1.3.0)).
 
+*Special flags have been added to make this version compatible with zstd 0.5.0*
+
 ## Usage
 
 There are two main APIs:
