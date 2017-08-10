@@ -12,47 +12,47 @@
 /* *************************************
 *  Dependencies
 ***************************************/
-#define ZBUFF_STATIC_LINKING_ONLY
+#define ZBUFF1_STATIC_LINKING_ONLY
 #include "zbuff.h"
 
 
-ZBUFF_DCtx* ZBUFF_createDCtx(void)
+ZBUFF1_DCtx* ZBUFF1_createDCtx(void)
 {
-    return ZSTD_createDStream();
+    return ZSTD1_createDStream();
 }
 
-ZBUFF_DCtx* ZBUFF_createDCtx_advanced(ZSTD_customMem customMem)
+ZBUFF1_DCtx* ZBUFF1_createDCtx_advanced(ZSTD1_customMem customMem)
 {
-    return ZSTD_createDStream_advanced(customMem);
+    return ZSTD1_createDStream_advanced(customMem);
 }
 
-size_t ZBUFF_freeDCtx(ZBUFF_DCtx* zbd)
+size_t ZBUFF1_freeDCtx(ZBUFF1_DCtx* zbd)
 {
-    return ZSTD_freeDStream(zbd);
+    return ZSTD1_freeDStream(zbd);
 }
 
 
 /* *** Initialization *** */
 
-size_t ZBUFF_decompressInitDictionary(ZBUFF_DCtx* zbd, const void* dict, size_t dictSize)
+size_t ZBUFF1_decompressInitDictionary(ZBUFF1_DCtx* zbd, const void* dict, size_t dictSize)
 {
-    return ZSTD_initDStream_usingDict(zbd, dict, dictSize);
+    return ZSTD1_initDStream_usingDict(zbd, dict, dictSize);
 }
 
-size_t ZBUFF_decompressInit(ZBUFF_DCtx* zbd)
+size_t ZBUFF1_decompressInit(ZBUFF1_DCtx* zbd)
 {
-    return ZSTD_initDStream(zbd);
+    return ZSTD1_initDStream(zbd);
 }
 
 
 /* *** Decompression *** */
 
-size_t ZBUFF_decompressContinue(ZBUFF_DCtx* zbd,
+size_t ZBUFF1_decompressContinue(ZBUFF1_DCtx* zbd,
                                 void* dst, size_t* dstCapacityPtr,
                           const void* src, size_t* srcSizePtr)
 {
-    ZSTD_outBuffer outBuff;
-    ZSTD_inBuffer inBuff;
+    ZSTD1_outBuffer outBuff;
+    ZSTD1_inBuffer inBuff;
     size_t result;
     outBuff.dst  = dst;
     outBuff.pos  = 0;
@@ -60,7 +60,7 @@ size_t ZBUFF_decompressContinue(ZBUFF_DCtx* zbd,
     inBuff.src  = src;
     inBuff.pos  = 0;
     inBuff.size = *srcSizePtr;
-    result = ZSTD_decompressStream(zbd, &outBuff, &inBuff);
+    result = ZSTD1_decompressStream(zbd, &outBuff, &inBuff);
     *dstCapacityPtr = outBuff.pos;
     *srcSizePtr = inBuff.pos;
     return result;
@@ -70,5 +70,5 @@ size_t ZBUFF_decompressContinue(ZBUFF_DCtx* zbd,
 /* *************************************
 *  Tool functions
 ***************************************/
-size_t ZBUFF_recommendedDInSize(void)  { return ZSTD_DStreamInSize(); }
-size_t ZBUFF_recommendedDOutSize(void) { return ZSTD_DStreamOutSize(); }
+size_t ZBUFF1_recommendedDInSize(void)  { return ZSTD1_DStreamInSize(); }
+size_t ZBUFF1_recommendedDOutSize(void) { return ZSTD1_DStreamOutSize(); }

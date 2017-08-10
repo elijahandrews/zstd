@@ -1,5 +1,5 @@
 /*
- * divsufsort.h for libdivsufsort-lite
+ * div1sufsort.h for libdiv1sufsort-lite
  * Copyright (c) 2003-2008 Yuta Mori All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person
@@ -43,7 +43,7 @@ extern "C" {
  * @return 0 if no error occurred, -1 or -2 otherwise.
  */
 int
-divsufsort(const unsigned char *T, int *SA, int n, int openMP);
+div1sufsort(const unsigned char *T, int *SA, int n, int openMP);
 
 /**
  * Constructs the burrows-wheeler transformed string of a given string.
@@ -57,7 +57,7 @@ divsufsort(const unsigned char *T, int *SA, int n, int openMP);
  * @return The primary index if no error occurred, -1 or -2 otherwise.
  */
 int
-divbwt(const unsigned char *T, unsigned char *U, int *A, int n, unsigned char * num_indexes, int * indexes, int openMP);
+div1bwt(const unsigned char *T, unsigned char *U, int *A, int n, unsigned char * num_indexes, int * indexes, int openMP);
 
 
 #ifdef __cplusplus

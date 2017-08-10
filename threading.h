@@ -18,7 +18,7 @@
 extern "C" {
 #endif
 
-#if defined(ZSTD_MULTITHREAD) && defined(_WIN32)
+#if defined(ZSTD1_MULTITHREAD) && defined(_WIN32)
 
 /**
  * Windows minimalist Pthread Wrapper, based on :
@@ -73,11 +73,11 @@ int _pthread_join(pthread_t* thread, void** value_ptr);
  */
 
 
-#elif defined(ZSTD_MULTITHREAD)   /* posix assumed ; need a better detection method */
+#elif defined(ZSTD1_MULTITHREAD)   /* posix assumed ; need a better detection method */
 /* ===   POSIX Systems   === */
 #  include <pthread.h>
 
-#else  /* ZSTD_MULTITHREAD not defined */
+#else  /* ZSTD1_MULTITHREAD not defined */
 /* No multithreading support */
 
 #define pthread_mutex_t int   /* #define rather than typedef, as sometimes pthread support is implicit, resulting in duplicated symbols */
@@ -95,7 +95,7 @@ int _pthread_join(pthread_t* thread, void** value_ptr);
 
 /* do not use pthread_t */
 
-#endif /* ZSTD_MULTITHREAD */
+#endif /* ZSTD1_MULTITHREAD */
 
 #if defined (__cplusplus)
 }

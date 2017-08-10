@@ -1,6 +1,6 @@
 /* ******************************************************************
    bitstream
-   Part of FSE library
+   Part of FSE1 library
    header file (to include)
    Copyright (C) 2013-2017, Yann Collet.
 

@@ -101,7 +101,7 @@ static void COVER_map_clear(COVER_map_t *map) {
  * The map is only guaranteed to be large enough to hold size elements.
  */
 static int COVER_map_init(COVER_map_t *map, U32 size) {
-  map->sizeLog = ZSTD_highbit32(size) + 2;
+  map->sizeLog = ZSTD1_highbit32(size) + 2;
   map->size = (U32)1 << map->sizeLog;
   map->sizeMask = map->size - 1;
   map->data = (COVER_map_pair_t *)malloc(map->size * sizeof(COVER_map_pair_t));
@@ -682,7 +682,7 @@ ZDICTLIB_API size_t ZDICT_trainFromBuffer_cover(
     const size_t dictionarySize = ZDICT_finalizeDictionary(
         dict, dictBufferCapacity, dict + tail, dictBufferCapacity - tail,
         samplesBuffer, samplesSizes, nbSamples, parameters.zParams);
-    if (!ZSTD_isError(dictionarySize)) {
+    if (!ZSTD1_isError(dictionarySize)) {
       DISPLAYLEVEL(2, "Constructed dictionary of size %u\n",
                    (U32)dictionarySize);
     }
@@ -863,8 +863,8 @@ static void COVER_tryParameters(void *opaque) {
   /* Check total compressed size */
   {
     /* Pointers */
-    ZSTD_CCtx *cctx;
-    ZSTD_CDict *cdict;
+    ZSTD1_CCtx *cctx;
+    ZSTD1_CDict *cdict;
     void *dst;
     /* Local variables */
     size_t dstCapacity;
@@ -875,12 +875,12 @@ static void COVER_tryParameters(void *opaque) {
       for (i = 0; i < ctx->nbSamples; ++i) {
         maxSampleSize = MAX(ctx->samplesSizes[i], maxSampleSize);
       }
-      dstCapacity = ZSTD_compressBound(maxSampleSize);
+      dstCapacity = ZSTD1_compressBound(maxSampleSize);
       dst = malloc(dstCapacity);
     }
     /* Create the cctx and cdict */
-    cctx = ZSTD_createCCtx();
-    cdict = ZSTD_createCDict(dict, dictBufferCapacity,
+    cctx = ZSTD1_createCCtx();
+    cdict = ZSTD1_createCDict(dict, dictBufferCapacity,
                              parameters.zParams.compressionLevel);
     if (!dst || !cctx || !cdict) {
       goto _compressCleanup;
@@ -888,18 +888,18 @@ static void COVER_tryParameters(void *opaque) {
     /* Compress each sample and sum their sizes (or error) */
     totalCompressedSize = 0;
     for (i = 0; i < ctx->nbSamples; ++i) {
-      const size_t size = ZSTD_compress_usingCDict(
+      const size_t size = ZSTD1_compress_usingCDict(
           cctx, dst, dstCapacity, ctx->samples + ctx->offsets[i],
           ctx->samplesSizes[i], cdict);
-      if (ZSTD_isError(size)) {
+      if (ZSTD1_isError(size)) {
         totalCompressedSize = ERROR(GENERIC);
         goto _compressCleanup;
       }
       totalCompressedSize += size;
     }
   _compressCleanup:
-    ZSTD_freeCCtx(cctx);
-    ZSTD_freeCDict(cdict);
+    ZSTD1_freeCCtx(cctx);
+    ZSTD1_freeCDict(cdict);
     if (dst) {
       free(dst);
     }
@@ -1021,7 +1021,7 @@ ZDICTLIB_API size_t ZDICT_optimizeTrainFromBuffer_cover(
   /* Fill the output buffer and parameters with output of the best parameters */
   {
     const size_t dictSize = best.dictSize;
-    if (ZSTD_isError(best.compressedSize)) {
+    if (ZSTD1_isError(best.compressedSize)) {
       const size_t compressedSize = best.compressedSize;
       COVER_best_destroy(&best);
       POOL_free(pool);

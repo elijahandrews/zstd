@@ -41,8 +41,8 @@ extern "C" {
 /*-****************************************
 *  Customization (error_public.h)
 ******************************************/
-typedef ZSTD_ErrorCode ERR_enum;
-#define PREFIX(name) ZSTD_error_##name
+typedef ZSTD1_ErrorCode ERR_enum;
+#define PREFIX(name) ZSTD1_error_##name
 
 
 /*-****************************************

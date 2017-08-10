@@ -1,8 +1,8 @@
 package zstd
 
 /*
-#define ZSTD_STATIC_LINKING_ONLY
-#cgo CFLAGS: -DZSTD_LEGACY_SUPPORT=5
+#define ZSTD1_STATIC_LINKING_ONLY
+#cgo CFLAGS: -DZSTD1_LEGACY_SUPPORT=5
 #include "zstd.h"
 */
 import "C"
@@ -17,8 +17,8 @@ import (
 type ErrorCode int
 
 func (e ErrorCode) Error() string {
-	if C.ZSTD_isError(C.size_t(e)) != C.uint(0) {
-		return C.GoString(C.ZSTD_getErrorName(C.size_t(e)))
+	if C.ZSTD1_isError(C.size_t(e)) != C.uint(0) {
+		return C.GoString(C.ZSTD1_getErrorName(C.size_t(e)))
 	}
 
 	return ""
@@ -77,7 +77,7 @@ func CompressBound(srcSize int) int {
 
 // cCompressBound is a cgo call to check the go implementation above against the c code.
 func cCompressBound(srcSize int) int {
-	return int(C.ZSTD_compressBound(C.size_t(srcSize)))
+	return int(C.ZSTD1_compressBound(C.size_t(srcSize)))
 }
 
 // getError returns an error for the return code, or nil if it's not an error
@@ -89,7 +89,7 @@ func getError(code int) error {
 }
 
 func cIsError(code int) bool {
-	return int(C.ZSTD_isError(C.size_t(code))) != 0
+	return int(C.ZSTD1_isError(C.size_t(code))) != 0
 }
 
 // Compress src into dst.  If you have a buffer to use, you can pass it to
@@ -111,7 +111,7 @@ func CompressLevel(dst, src []byte, level int) ([]byte, error) {
 		dst = make([]byte, bound)
 	}
 
-	cWritten := C.ZSTD_compress(
+	cWritten := C.ZSTD1_compress(
 		unsafe.Pointer(&dst[0]),
 		C.size_t(len(dst)),
 		unsafe.Pointer(&src[0]),
@@ -132,7 +132,7 @@ func CompressLevel(dst, src []byte, level int) ([]byte, error) {
 func Decompress(dst, src []byte) ([]byte, error) {
 	decompress := func(dst, src []byte) ([]byte, error) {
 
-		cWritten := C.ZSTD_decompress(
+		cWritten := C.ZSTD1_decompress(
 			unsafe.Pointer(&dst[0]),
 			C.size_t(len(dst)),
 			unsafe.Pointer(&src[0]),
@@ -148,7 +148,7 @@ func Decompress(dst, src []byte) ([]byte, error) {
 
 	if dst == nil {
 		// Attempt to use zStd to determine decompressed size (may result in error or 0)
-		size := int(C.size_t(C.ZSTD_getDecompressedSize(unsafe.Pointer(&src[0]), C.size_t(len(src)))))
+		size := int(C.size_t(C.ZSTD1_getDecompressedSize(unsafe.Pointer(&src[0]), C.size_t(len(src)))))
 
 		if err := getError(size); err != nil {
 			return nil, err

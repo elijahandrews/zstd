@@ -14,13 +14,13 @@
 #include "zbuff.h"
 
 /*-****************************************
-*  ZBUFF Error Management  (deprecated)
+*  ZBUFF1 Error Management  (deprecated)
 ******************************************/
 
-/*! ZBUFF_isError() :
+/*! ZBUFF1_isError() :
 *   tells if a return value is an error code */
-unsigned ZBUFF_isError(size_t errorCode) { return ERR_isError(errorCode); }
-/*! ZBUFF_getErrorName() :
+unsigned ZBUFF1_isError(size_t errorCode) { return ERR_isError(errorCode); }
+/*! ZBUFF1_getErrorName() :
 *   provides error code string from function result (useful for debugging) */
-const char* ZBUFF_getErrorName(size_t errorCode) { return ERR_getErrorName(errorCode); }
+const char* ZBUFF1_getErrorName(size_t errorCode) { return ERR_getErrorName(errorCode); }
 

@@ -7,8 +7,8 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#ifndef ZSTD_V02_H_4174539423
-#define ZSTD_V02_H_4174539423
+#ifndef ZSTD1_V02_H_4174539423
+#define ZSTD1_V02_H_4174539423
 
 #if defined (__cplusplus)
 extern "C" {
@@ -24,64 +24,64 @@ extern "C" {
 *  Simple one-step function
 ***************************************/
 /**
-ZSTDv02_decompress() : decompress ZSTD frames compliant with v0.2.x format
+ZSTD1v02_decompress() : decompress ZSTD1 frames compliant with v0.2.x format
     compressedSize : is the exact source size
     maxOriginalSize : is the size of the 'dst' buffer, which must be already allocated.
                       It must be equal or larger than originalSize, otherwise decompression will fail.
     return : the number of bytes decompressed into destination buffer (originalSize)
-             or an errorCode if it fails (which can be tested using ZSTDv01_isError())
+             or an errorCode if it fails (which can be tested using ZSTD1v01_isError())
 */
-size_t ZSTDv02_decompress( void* dst, size_t maxOriginalSize,
+size_t ZSTD1v02_decompress( void* dst, size_t maxOriginalSize,
                      const void* src, size_t compressedSize);
 
 /**
-ZSTDv02_getFrameSrcSize() : get the source length of a ZSTD frame compliant with v0.2.x format
+ZSTD1v02_getFrameSrcSize() : get the source length of a ZSTD1 frame compliant with v0.2.x format
     compressedSize : The size of the 'src' buffer, at least as large as the frame pointed to by 'src'
     return : the number of bytes that would be read to decompress this frame
-             or an errorCode if it fails (which can be tested using ZSTDv02_isError())
+             or an errorCode if it fails (which can be tested using ZSTD1v02_isError())
 */
-size_t ZSTDv02_findFrameCompressedSize(const void* src, size_t compressedSize);
+size_t ZSTD1v02_findFrameCompressedSize(const void* src, size_t compressedSize);
 
 /**
-ZSTDv02_isError() : tells if the result of ZSTDv02_decompress() is an error
+ZSTD1v02_isError() : tells if the result of ZSTD1v02_decompress() is an error
 */
-unsigned ZSTDv02_isError(size_t code);
+unsigned ZSTD1v02_isError(size_t code);
 
 
 /* *************************************
 *  Advanced functions
 ***************************************/
-typedef struct ZSTDv02_Dctx_s ZSTDv02_Dctx;
-ZSTDv02_Dctx* ZSTDv02_createDCtx(void);
-size_t ZSTDv02_freeDCtx(ZSTDv02_Dctx* dctx);
+typedef struct ZSTD1v02_Dctx_s ZSTD1v02_Dctx;
+ZSTD1v02_Dctx* ZSTD1v02_createDCtx(void);
+size_t ZSTD1v02_freeDCtx(ZSTD1v02_Dctx* dctx);
 
-size_t ZSTDv02_decompressDCtx(void* ctx,
+size_t ZSTD1v02_decompressDCtx(void* ctx,
                               void* dst, size_t maxOriginalSize,
                         const void* src, size_t compressedSize);
 
 /* *************************************
 *  Streaming functions
 ***************************************/
-size_t ZSTDv02_resetDCtx(ZSTDv02_Dctx* dctx);
+size_t ZSTD1v02_resetDCtx(ZSTD1v02_Dctx* dctx);
 
-size_t ZSTDv02_nextSrcSizeToDecompress(ZSTDv02_Dctx* dctx);
-size_t ZSTDv02_decompressContinue(ZSTDv02_Dctx* dctx, void* dst, size_t maxDstSize, const void* src, size_t srcSize);
+size_t ZSTD1v02_nextSrcSizeToDecompress(ZSTD1v02_Dctx* dctx);
+size_t ZSTD1v02_decompressContinue(ZSTD1v02_Dctx* dctx, void* dst, size_t maxDstSize, const void* src, size_t srcSize);
 /**
   Use above functions alternatively.
-  ZSTD_nextSrcSizeToDecompress() tells how much bytes to provide as 'srcSize' to ZSTD_decompressContinue().
-  ZSTD_decompressContinue() will use previous data blocks to improve compression if they are located prior to current block.
+  ZSTD1_nextSrcSizeToDecompress() tells how much bytes to provide as 'srcSize' to ZSTD1_decompressContinue().
+  ZSTD1_decompressContinue() will use previous data blocks to improve compression if they are located prior to current block.
   Result is the number of bytes regenerated within 'dst'.
-  It can be zero, which is not an error; it just means ZSTD_decompressContinue() has decoded some header.
+  It can be zero, which is not an error; it just means ZSTD1_decompressContinue() has decoded some header.
 */
 
 /* *************************************
 *  Prefix - version detection
 ***************************************/
-#define ZSTDv02_magicNumber 0xFD2FB522   /* v0.2 */
+#define ZSTD1v02_magicNumber 0xFD2FB522   /* v0.2 */
 
 
 #if defined (__cplusplus)
 }
 #endif
 
-#endif /* ZSTD_V02_H_4174539423 */
+#endif /* ZSTD1_V02_H_4174539423 */

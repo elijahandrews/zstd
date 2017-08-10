@@ -19,7 +19,7 @@
 #endif
 
 
-#ifdef ZSTD_MULTITHREAD
+#ifdef ZSTD1_MULTITHREAD
 
 #include "threading.h"   /* pthread adaptation */
 
@@ -175,7 +175,7 @@ void POOL_add(void *ctxVoid, POOL_function function, void *opaque) {
     pthread_cond_signal(&ctx->queuePopCond);
 }
 
-#else  /* ZSTD_MULTITHREAD  not defined */
+#else  /* ZSTD1_MULTITHREAD  not defined */
 /* No multi-threading support */
 
 /* We don't need any data, but if it is empty malloc() might return NULL. */
@@ -203,4 +203,4 @@ size_t POOL_sizeof(POOL_ctx *ctx) {
     return sizeof(*ctx);
 }
 
-#endif  /* ZSTD_MULTITHREAD */
+#endif  /* ZSTD1_MULTITHREAD */

@@ -27,9 +27,9 @@ extern "C" {
 #    define ZDICTLIB_VISIBILITY
 #  endif
 #endif
-#if defined(ZSTD_DLL_EXPORT) && (ZSTD_DLL_EXPORT==1)
+#if defined(ZSTD1_DLL_EXPORT) && (ZSTD1_DLL_EXPORT==1)
 #  define ZDICTLIB_API __declspec(dllexport) ZDICTLIB_VISIBILITY
-#elif defined(ZSTD_DLL_IMPORT) && (ZSTD_DLL_IMPORT==1)
+#elif defined(ZSTD1_DLL_IMPORT) && (ZSTD1_DLL_IMPORT==1)
 #  define ZDICTLIB_API __declspec(dllimport) ZDICTLIB_VISIBILITY /* It isn't required but allows to generate better code, saving a function pointer load from the IAT and an indirect jump.*/
 #else
 #  define ZDICTLIB_API ZDICTLIB_VISIBILITY
@@ -84,7 +84,7 @@ typedef struct {
     unsigned k;                  /* Segment size : constraint: 0 < k : Reasonable range [16, 2048+] */
     unsigned d;                  /* dmer size : constraint: 0 < d <= k : Reasonable range [6, 16] */
     unsigned steps;              /* Number of steps : Only used for optimization : 0 means default (32) : Higher means more parameters checked */
-    unsigned nbThreads;          /* Number of threads : constraint: 0 < nbThreads : 1 means single-threaded : Only used for optimization : Ignored if ZSTD_MULTITHREAD is not defined */
+    unsigned nbThreads;          /* Number of threads : constraint: 0 < nbThreads : 1 means single-threaded : Only used for optimization : Ignored if ZSTD1_MULTITHREAD is not defined */
     ZDICT_params_t zParams;
 } ZDICT_cover_params_t;
 
